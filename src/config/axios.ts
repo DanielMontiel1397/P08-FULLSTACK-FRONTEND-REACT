@@ -1,0 +1,21 @@
+import axios from "axios";
+
+const clienteAxios = axios.create({
+    baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`
+});
+
+//Interceptar consulta
+clienteAxios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
+        if(token){
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error)
+    }
+)
+
+export default clienteAxios;
