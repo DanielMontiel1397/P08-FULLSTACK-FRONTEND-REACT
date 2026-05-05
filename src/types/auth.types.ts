@@ -1,4 +1,4 @@
-import { administradorSchemaResponse, formErrorValidacionSchemaResponse, loginErrorSchemaResponse, loginSchema, loginSuccessSuperAdminSchemaResponse, loginSuccesSucursalSchemaResponse, sucursalSchemaResponse } from "../schemas/authSchema";
+import { administradorSchemaResponse, crearPasswordSucursalSchemaResponse, formErrorValidacionSchemaResponse, loginErrorSchemaResponse, loginSchema, loginSuccessSuperAdminSchemaResponse, loginSuccesSucursalSchemaResponse, sucursalSchemaResponse } from "../schemas/authSchema";
 import {z} from "zod";
 
 export type AdministradorResponseType = z.infer<typeof administradorSchemaResponse> | null;
@@ -43,3 +43,19 @@ export type LoginSucursalErrorType = {
 }
 
 export type LoginSucursalResponseType = LoginSucursalSuccesType | LoginSucursalErrorType;
+
+
+///////TYPES CREAR PASSSWORD PARA SUCURSAL
+export type CrearPasswordSucursalResponseType = z.infer<typeof crearPasswordSucursalSchemaResponse>
+
+export type CrearPasswordSucursalSuccessType = {
+    success: true,
+    msg: string
+}
+
+export type CrearPasswordSucursalErrorType = {
+    success: false,
+    msg: string
+}
+
+export type CrearPasswordSucursalType = CrearPasswordSucursalSuccessType | CrearPasswordSucursalErrorType;

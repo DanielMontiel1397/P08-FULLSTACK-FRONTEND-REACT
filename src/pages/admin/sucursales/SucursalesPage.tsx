@@ -26,7 +26,7 @@ export default function SucursalesPage() {
 
   useEffect(() => {
     obtenerSucursales(page, limit);
-  }, [page, limit])
+  }, [page, limit, obtenerSucursales])
 
   // 🎛️ Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);

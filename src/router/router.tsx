@@ -6,13 +6,13 @@ import AdminLayout from "../pages/admin/AdminLayout";
 import DashboardAdminPage from "../pages/admin/DashboardAdminPage";
 import PerfilAdminPage from "../pages/admin/PerfilAdminPage";
 import SucursalesPage from "../pages/admin/sucursales/SucursalesPage";
-import CrearSucursalPage from "../pages/admin/sucursales/CrearSucursalPage";
 import SucursalDetallePage from "../pages/admin/sucursales/SucursalDetallePage";
 import TodosClientesPage from "../pages/admin/clientes/TodosClientesPage";
 import ClienteSucursalPage from "../pages/admin/clientes/ClienteSucursalPage";
 import ConfirmarCorreo from "../pages/confirm/ConfirmarCorreo";
 import ConfirmarLayout from "../pages/confirm/ConfirmLayout";
 import NotFoundView from "../pages/404";
+import CrearPasswordSucursal from "../pages/auth/CrearPasswordSucursal";
 
 
 export const router = createBrowserRouter([
@@ -43,6 +43,10 @@ export const router = createBrowserRouter([
             {
                 path: 'verificar-email/:token',
                 element: <ConfirmarCorreo />
+            },
+            {
+                path: 'crear-password/:token',
+                element: <CrearPasswordSucursal/>
             }
         ]
     },
@@ -62,10 +66,6 @@ export const router = createBrowserRouter([
             {
                 path: 'sucursales',
                 element: <SucursalesPage />
-            },
-            {
-                path: 'sucursales/crear',
-                element: <CrearSucursalPage />
             },
             {
                 path: 'sucursales/:id',

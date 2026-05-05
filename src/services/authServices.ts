@@ -2,8 +2,8 @@
 import axios from "axios";
 import clienteAxios from "../config/axios";
 import { AUTH_ENDPOINTS } from "../config/endpoints";
-import { formErrorValidacionSchemaResponse, loginErrorSchemaResponse, loginSuccessSuperAdminSchemaResponse, loginSuccesSucursalSchemaResponse } from "../schemas/authSchema";
-import type { LoginSucursalResponseType, LoginSuperAdminResponseType, LoginType } from "../types/auth.types";
+import { crearPasswordSucursalSchemaResponse, formErrorValidacionSchemaResponse, loginErrorSchemaResponse, loginSuccessSuperAdminSchemaResponse, loginSuccesSucursalSchemaResponse } from "../schemas/authSchema";
+import type { CrearPasswordSucursalType, LoginSucursalResponseType, LoginSuperAdminResponseType, LoginType } from "../types/auth.types";
 import type { ConfirmarEmailAdministradorType, TokenUrlType } from "../types/ConfirmarCuentaType";
 import { confirmarEmailAdministradorSchema } from "../schemas/ConfirmarCuentaSchema";
 import type { DashboardErrorType } from "../types/adminTypes/dashboardAdminType";
@@ -130,7 +130,6 @@ export async function autenticarSucursal(credenciales: LoginType) : Promise<Logi
 
 }
 
-
 export async function confirmarEmailAdministrador(token: TokenUrlType): Promise<ConfirmarEmailAdministradorType> {
     const url = `${AUTH_ENDPOINTS.CONFIRMAR_EMAIL_ADMINISTRADOR}/${token}`;
 
@@ -179,4 +178,50 @@ export async function confirmarEmailAdministrador(token: TokenUrlType): Promise<
 
         return {...respuestaCatchConexion, estado: 'error'}
     }
+}
+
+export async function crearPasswordSucursal(password: string, token: string | null) : Promise<CrearPasswordSucursalType>{
+    
+    try {
+        console.log(password);
+        const {data} = await clienteAxios.post(`${AUTH_ENDPOINTS.CREATED_PASSWORD_SUCURSAL}/${token}`, {password});
+
+        const result = crearPasswordSucursalSchemaResponse.safeParse(data);
+
+        if(result.success){
+            return {
+                success: true,
+                msg: result.data.msg
+            }
+        }
+
+        return {
+            success: false,
+            msg: 'Hubo un error al validar los datos'
+        }
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            const {data} = error.response;
+            
+            const result = crearPasswordSucursalSchemaResponse.safeParse(data);
+
+            if(result.success){
+                return {
+                    success: false,
+                    msg: result.data.msg
+                }
+            }
+
+            return {
+                success: false,
+                msg: 'Hubo un error al validar los datos'
+            }
+        }
+
+        return {
+            success: false,
+            msg: 'Error de conexión, verifique su conexión a internet'
+        }
+    }
+
 }

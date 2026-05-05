@@ -59,6 +59,17 @@ export const loginSuccesSucursalSchemaResponse = z.object({
     msg: z.string()
 });
 
+////////SCHEMAS CREAR PASSWORD SUCURSAL////////
 
+export const crearPasswordSucursalSchema = z.object({
+    password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres')
+        .max(50, 'La contraseña no puede tener más de 50 caracteres'),
+    confirmarPassword: z.string()
+}).refine((data) => data.password === data.confirmarPassword, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirmarPassword']
+})
 
-
+export const crearPasswordSucursalSchemaResponse = z.object({
+    msg: z.string()
+})

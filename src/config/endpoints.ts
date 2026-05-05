@@ -8,7 +8,7 @@ export const AUTH_ENDPOINTS = {
     RESET_PASSWORD_ADMIN: '/auth/superadmin/resetear-password/', //Más token
     RESET_PASSWORD_SUCURSAL: '/auth/sucursal/resetear-password/', //Más token
     CONFIRM_SUCURSAL: '/auth/sucursal/confirmar-cuenta/', //Más token
-    CREATED_PASSWORD_SUCURSAL: '/auth/sucursal/crear-password/', //Más token
+    CREATED_PASSWORD_SUCURSAL: '/auth/sucursal/crear-password', //Más token
     ACTUALIZAR_PASSWORD_SUCURSAL: '/auth/sucursal/validar-nuevo-email/', //Más token
     CONFIRMAR_EMAIL_ADMINISTRADOR: '/superAdministrador/verificar-nuevo-email'
 }

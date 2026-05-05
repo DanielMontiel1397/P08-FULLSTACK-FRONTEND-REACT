@@ -1,6 +1,6 @@
 import { type StateCreator } from "zustand";
 import type { AdministradorResponseType, LoginType, SucursalResponseType } from "../types/auth.types";
-import { autenticarSucursal, autenticarSuperAdmin, confirmarEmailAdministrador } from "../services/authServices";
+import { autenticarSucursal, autenticarSuperAdmin, confirmarEmailAdministrador, crearPasswordSucursal } from "../services/authServices";
 import { toast } from "react-toastify";
 import { verificarAdministrador } from "../services/adminServices";
 import type { ConfirmarEmailAdministradorType, TokenUrlType } from "../types/ConfirmarCuentaType";
@@ -16,6 +16,7 @@ export type AuthSliceType = {
     loginSucursal: (credenciales: LoginType) => Promise<void>,
     verificarTokenAdministrador: () => Promise<void>
     confirmarEmailAdministrador: (token: TokenUrlType) => Promise<ConfirmarEmailAdministradorType>;
+    crearPasswordSucursal: (password: string, token: string | null) => Promise<boolean>
     logOutAdministrador: () => void;
 }
 
@@ -133,6 +134,26 @@ export const authSlice: StateCreator<AuthSliceType> = (set) => ({
         })
 
         return respuesta;
+    },
+
+    crearPasswordSucursal: async (password, token) => {
+
+        set({
+            loading: true
+        })
+        const respuesta = await crearPasswordSucursal(password, token);
+        
+        if(respuesta.success){
+            toast.success(respuesta.msg);
+        } else {
+            toast.error(respuesta.msg);
+        }
+
+        set({
+            loading: false
+        })
+
+        return respuesta.success;
     },
 
     logOutAdministrador: () => {
