@@ -9,17 +9,24 @@ export default function AuthLayout() {
   const navigate = useNavigate()
 
   ///VERIFICAR RUTA
-  const verificarAdministrador = useAppStore(state => state.verificarTokenAdministrador);
+  const verificarAutenticado = useAppStore(state => state.verificarToken);
   const administradorAutenticado = useAppStore(state => state.authAdministrador)
+  const usuarioActivo = useAppStore(state => state.activeUserType)
+  const sucursalAutenticada = useAppStore(state => state.authSucursal);
+
   const cargando = useAppStore(state => state.loading);
 
   useEffect(() => {
-    const token = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
+    const userType = localStorage.getItem('GYM_USER_TYPE');
+    const tokenAdmin = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
+    const tokenSucursal = localStorage.getItem('AUTH_TOKEN_SUCURSAL_GYM');
 
-    if (token) {
-      verificarAdministrador()
+    if ((userType === 'admin' && tokenAdmin) || (userType === 'sucursal' && tokenSucursal)) {
+      verificarAutenticado()
+    } else {
+      navigate('/auth', {replace: true})
     }
-  }, [])
+  }, [verificarAutenticado])
 
   //Mostrar cargando mientras se verifica usuario
   if (cargando) {
@@ -28,18 +35,22 @@ export default function AuthLayout() {
     )
   }
 
-
-  if (administradorAutenticado) {
-    navigate('/admin');
+  if (administradorAutenticado && usuarioActivo === 'admin') {
+    navigate('/admin', {replace: true});
     return null;
   }
 
+  if(sucursalAutenticada && usuarioActivo === 'sucursal'){
+    navigate('/sucursal', {replace: true});
+    return null
+  }
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex bg-gray-100 min-h-screen ">
 
       <AuthSidebar />
 
-      <main className="flex-1 flex items-center justify-center">
+      <main className="flex-1 flex items-center justify-center py-5 bg-zinc-950">
         <Outlet />
       </main>
 

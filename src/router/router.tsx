@@ -13,6 +13,9 @@ import ConfirmarCorreo from "../pages/confirm/ConfirmarCorreo";
 import ConfirmarLayout from "../pages/confirm/ConfirmLayout";
 import NotFoundView from "../pages/404";
 import CrearPasswordSucursal from "../pages/auth/CrearPasswordSucursal";
+import SucursalLayout from "../pages/sucursal/SucursalLayout";
+import AuthGeneral from "../pages/auth/AuthGeneral";
+import DashboardSucursalPage from "../pages/sucursal/DashboardSucursalPage";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +29,10 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                element: <AuthGeneral/>
+            },
+            {
+                
                 path: 'loginAdmin',
                 element: <LoginAdminPage />
             },
@@ -78,6 +85,18 @@ export const router = createBrowserRouter([
             {
                 path: 'sucursales/:idSucursal/clientes',
                 element: <ClienteSucursalPage />
+            }
+        ]
+    },
+
+    /////RUTAS PARA SUCURSAL
+    {
+        path: '/sucursal',
+        element: <SucursalLayout/>,
+        children: [
+            {
+                index: true,
+                element: <DashboardSucursalPage/>
             }
         ]
     }

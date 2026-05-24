@@ -24,3 +24,8 @@ export const ADMIN_ENDPOINTS = {
     OBTENER_TODOS_CLIENTES: '/superAdministrador/clientes',
     EDITAR_SUCURSAL: '/superAdministrador/sucursales'
 }
+
+export const SUCURSAL_ENDPOINTS = {
+    VERIFICAR: '/sucursal/verificar',
+    INICIO: '/sucursal/inicio'
+}

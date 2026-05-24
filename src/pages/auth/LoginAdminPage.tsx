@@ -23,7 +23,7 @@ export default function LoginAdminPage() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-zinc-950">
+    <div className="w-full h-full flex items-center justify-center ">
       <div className="w-full max-w-md bg-zinc-900 rounded-2xl shadow-xl p-8 border border-zinc-800">
 
         <div className="mb-8 text-center">

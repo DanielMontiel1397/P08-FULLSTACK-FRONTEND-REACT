@@ -7,7 +7,16 @@ const clienteAxios = axios.create({
 //Interceptar consulta
 clienteAxios.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
+        const userType = localStorage.getItem('GYM_USER_TYPE');
+
+        let token = null;
+
+        if(userType === 'admin'){
+            token = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
+        } else if(userType === 'sucursal'){
+            token = localStorage.getItem('AUTH_TOKEN_SUCURSAL_GYM')
+        }
+
         if(token){
             config.headers.Authorization = `Bearer ${token}`;
         }

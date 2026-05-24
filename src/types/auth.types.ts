@@ -3,7 +3,7 @@ import {z} from "zod";
 
 export type AdministradorResponseType = z.infer<typeof administradorSchemaResponse> | null;
 
-export type SucursalResponseType = z.infer<typeof sucursalSchemaResponse>;
+export type SucursalResponseType = z.infer<typeof sucursalSchemaResponse> | null;
 
 export type LoginType = z.infer<typeof loginSchema>;
 

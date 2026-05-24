@@ -31,7 +31,7 @@ export default function ClientesSucursalPage() {
 
   useEffect(() => {
     obtenerClientes(idSucursal, page, limit);
-  }, [page, limit])
+  }, [page, limit,obtenerClientes])
 
   // 🎛️ Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);

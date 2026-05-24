@@ -26,7 +26,7 @@ export default function AuthSidebar() {
   return (
     <nav
       className={`
-        h-screen flex flex-col justify-between
+        min-h-screen flex flex-col justify-between
         bg-zinc-900 text-zinc-100
         shadow-lg transition-all duration-300
         ${open ? 'w-64' : 'w-20'}
@@ -34,9 +34,9 @@ export default function AuthSidebar() {
     >
 
       <div className="h-20 flex items-center justify-between px-4 border-b border-zinc-800">
-        <div className="flex items-center gap-2 overflow-hidden">
+        <Link to="/auth" className="flex items-center gap-2 overflow-hidden">
           <img className={`w-10 ${!open && 'hidden'}`} src=".././Logo.png" alt="Logo" />
-        </div>
+        </Link>
 
         <MdMenuOpen
           size={28}

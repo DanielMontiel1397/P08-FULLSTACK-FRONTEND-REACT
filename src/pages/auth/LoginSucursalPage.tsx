@@ -11,12 +11,15 @@ export default function LoginSucursalPage() {
   const autenticarSucursal = useAppStore(state => state.loginSucursal);
   const loading = useAppStore(state => state.loading);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginType>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginType>({
     resolver: zodResolver(loginSchema)
   })
 
-  const onSubmit = (data: LoginType) => {
-    autenticarSucursal(data);
+  const onSubmit = async (data: LoginType) => {
+    await autenticarSucursal(data);
+    reset({
+      password: ''
+    })
   }
 
   return (

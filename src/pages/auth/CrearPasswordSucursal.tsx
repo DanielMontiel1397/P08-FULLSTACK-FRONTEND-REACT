@@ -45,12 +45,7 @@ export default function CrearPasswordSucursal() {
             {/* Header */}
             <div className="mb-8 text-center">
                 <div className="flex justify-center mb-4">
-                    <div className="
-            w-16 h-16 
-            bg-blue-900/30
-            border-2 border-blue-600/50
-            rounded-full 
-            flex items-center justify-center
+                    <div className="w-16 h-16 bg-blue-900/30 border-2 border-blue-600/50 rounded-full flex items-center justify-center
           ">
                         <span className="text-3xl">🔒</span>
                     </div>
@@ -74,11 +69,7 @@ export default function CrearPasswordSucursal() {
                     <input
                         type="password"
                         placeholder="••••••••"
-                        className="
-              bg-zinc-800 border border-zinc-700
-              text-zinc-100 rounded-lg px-4 py-2
-              placeholder-zinc-500
-              focus:outline-none focus:ring-2 focus:ring-blue-600
+                        className=" bg-zinc-800 border border-zinc-700 text-zinc-100 rounded-lg px-4 py-2 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-600
             "
                         {...register('password')}
                     />
@@ -95,11 +86,7 @@ export default function CrearPasswordSucursal() {
                     <input
                         type="password"
                         placeholder="••••••••"
-                        className="
-              bg-zinc-800 border border-zinc-700
-              text-zinc-100 rounded-lg px-4 py-2
-              placeholder-zinc-500
-              focus:outline-none focus:ring-2 focus:ring-blue-600
+                        className=" bg-zinc-800 border border-zinc-700 text-zinc-100 rounded-lg px-4 py-2 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-600
             "
                         {...register('confirmarPassword')}
                     />
@@ -129,15 +116,7 @@ export default function CrearPasswordSucursal() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="
-            hover:cursor-pointer
-            w-full mt-6
-            bg-blue-600 hover:bg-blue-700
-            disabled:bg-blue-400 disabled:cursor-not-allowed
-            text-white font-medium
-            py-2.5 rounded-lg
-            transition-colors
-            flex items-center justify-center gap-2
+                    className="hover:cursor-pointer w-full mt-6  bg-blue-600 hover:bg-blue-700  disabled:bg-blue-400 disabled:cursor-not-allowed  text-white font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2
           "
                 >
                     {loading && (
