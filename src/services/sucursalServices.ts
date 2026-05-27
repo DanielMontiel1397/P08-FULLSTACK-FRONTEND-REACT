@@ -1,11 +1,11 @@
 import axios from "axios";
 import clienteAxios from "../config/axios";
 import { SUCURSAL_ENDPOINTS } from "../config/endpoints";
-import { verificarSucursalAutenticadaSchemaResponse } from "../schemas/sucursalSchemas/sucursalPerfilSchema";
+import { obtenerPerfilSucursalSchemaResponse, verificarSucursalAutenticadaSchemaResponse } from "../schemas/sucursalSchemas/sucursalPerfilSchema";
 
 import { mensajeErrorSucursalSchemaResponse } from "../schemas/sucursalSchemas/sucursalGeneralSchema";
 import type { ErrorTypadoGeneralType, MensajeConexionErrorSucursalType } from "../types/sucursalTypes/sucursalGeneralTypes";
-import type { SucursalVerificadaResponseType } from "../types/sucursalTypes/sucursalPerfilTypes";
+import type { ObtenerPerfilSucursalResponseType, SucursalVerificadaResponseType } from "../types/sucursalTypes/sucursalPerfilTypes";
 import { sucursalDasboardSchema, sucursalDashboardErrorSchema } from "../schemas/sucursalSchemas/sucursalDashboardSchema";
 import type { DashboardSucursalResponseType } from "../types/sucursalTypes/sucursalDashboardTypes";
 
@@ -90,4 +90,39 @@ export async function obtenerDashboardSucursal() : Promise<DashboardSucursalResp
         return respuestaCatchConexion;
     }
 
+}
+
+export async function obtenerPerfilSucursal() : Promise<ObtenerPerfilSucursalResponseType> {
+    try {
+        const {data} = await clienteAxios.get(SUCURSAL_ENDPOINTS.PERFIL);
+
+        const result = obtenerPerfilSucursalSchemaResponse.safeParse(data);
+
+        if(result.success){
+            return {
+                ok: true,
+                msg: result.data.msg,
+                data: result.data.data.sucursal
+            }
+        }
+
+        return respuestaErrorTypado;
+
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            
+            const result = sucursalDashboardErrorSchema.safeParse(error.response.data);
+
+            if(result.success){
+                return {
+                    ok: false,
+                    msg: result.data.msg
+                }
+            }
+
+            return respuestaErrorTypado;
+        }
+
+        return respuestaCatchConexion;
+    }
 }

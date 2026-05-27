@@ -17,3 +17,32 @@ export const verificarSucursalAutenticadaSchemaResponse = z.object({
     usuario: sucursalPerfil
   })  
 });
+
+/////OBTENER PERFIL
+export const obtenerPerfilSucursalSchemaResponse = z.object({
+  data: z.object({
+    sucursal: sucursalPerfil
+  }),
+  msg: z.string()
+})
+
+////EDITAR PERFIL
+
+export const inputsPerfilSucursalEditarSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'El nombre es obligatorio')
+    .min(3, 'El nombre debe tener al menos 3 caracteres'),
+  email: z
+    .string()
+    .min(1, 'El email es obligatorio')
+    .email('Ingresa un email válido'),
+  phone: z
+    .string()
+    .min(1, 'El teléfono es obligatorio')
+    .min(10, 'El teléfono debe tener al menos 10 caracteres'),
+  address: z
+    .string()
+    .min(1, 'La dirección es obligatoria')
+    .min(5, 'La dirección debe tener al menos 5 caracteres')
+});

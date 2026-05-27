@@ -27,5 +27,6 @@ export const ADMIN_ENDPOINTS = {
 
 export const SUCURSAL_ENDPOINTS = {
     VERIFICAR: '/sucursal/verificar',
-    INICIO: '/sucursal/inicio'
+    INICIO: '/sucursal/inicio',
+    PERFIL: '/sucursal/perfil'
 }

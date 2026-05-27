@@ -7,7 +7,7 @@ import type { sucursalPerfil, verificarSucursalAutenticadaSchemaResponse } from 
 
 export type SucuraslVerificadaResponseSuccessType = z.infer<typeof verificarSucursalAutenticadaSchemaResponse>;
 
-export type SucursalPerfilType = z.infer<typeof sucursalPerfil> | null;
+export type SucursalPerfilType = z.infer<typeof sucursalPerfil>;
 
 export type SucursalVerificadaSuccessType = {
     ok: true,
@@ -21,3 +21,19 @@ export type SucursalVerificadaErrorType = {
 }
 
 export type SucursalVerificadaResponseType = SucursalVerificadaSuccessType | SucursalVerificadaErrorType;
+
+
+////TYPES OBTENER PERFIL
+
+export type ObtenerPerfilSucursalSuccessType = {
+    ok: true,
+    msg: string,
+    data: SucursalPerfilType
+}
+
+export type ObtenerPerfilSucursalErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type ObtenerPerfilSucursalResponseType = ObtenerPerfilSucursalSuccessType | ObtenerPerfilSucursalErrorType;

@@ -16,6 +16,7 @@ import CrearPasswordSucursal from "../pages/auth/CrearPasswordSucursal";
 import SucursalLayout from "../pages/sucursal/SucursalLayout";
 import AuthGeneral from "../pages/auth/AuthGeneral";
 import DashboardSucursalPage from "../pages/sucursal/DashboardSucursalPage";
+import PerfilSucursalPage from "../pages/sucursal/PerfilSucursalPage";
 
 
 export const router = createBrowserRouter([
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <DashboardSucursalPage/>
+            },
+            {
+                path: 'perfil',
+                element: <PerfilSucursalPage/>
             }
         ]
     }

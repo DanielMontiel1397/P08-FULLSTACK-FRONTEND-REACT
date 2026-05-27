@@ -11,17 +11,17 @@ const menuItems = [
   {
     icon: <RiAdminLine size={26} />,
     label: 'Inicio',
-    url: '/admin'
+    url: '/sucursal'
   },
   {
     icon: <MdStorefront size={26} />,
     label: 'Perfil',
-    url: '/admin/perfil'
+    url: '/sucursal/perfil'
   },
   {
     icon: <MdStorefront size={26} />,
     label: 'clientes',
-    url: '/admin/clientes'
+    url: '/sucursal/clientes'
   }
 ]
 

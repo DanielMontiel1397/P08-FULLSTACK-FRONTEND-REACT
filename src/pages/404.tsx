@@ -4,7 +4,7 @@ export default function NotFoundView() {
   const navigate = useNavigate();
 
   const handleVolverInicio = () => {
-    navigate('/');
+    navigate('/auth');
   };
 
   return (
