@@ -4,23 +4,24 @@ import ConfirmModal from "../../components/ConfirmModal";
 import MensajeErrorInput from "../../components/MensajeErrorInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
-import z from "zod";
 import { inputsPerfilSucursalEditarSchema } from "../../schemas/sucursalSchemas/sucursalPerfilSchema";
+import type { PerfilSucursalFormDataType } from "../../types/sucursalTypes/sucursalPerfilTypes";
 
 
-type PerfilSucursalFormDataType = z.infer<typeof inputsPerfilSucursalEditarSchema>;
+
 
 export default function PerfilSucursalPage() {
 
   const obtenerPerfilSucursal = useAppStore(state => state.getPerfilSucursal);
   const perfilSucursal = useAppStore(state => state.perfilSucursal);
+  const editarSucursal = useAppStore(state => state.editarPerfilSucursal);
 
   useEffect(() => {
     obtenerPerfilSucursal();
   }, [obtenerPerfilSucursal])
 
   // Estado Inicial Formulario
-  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<PerfilSucursalFormDataType>({
+  const { register, handleSubmit, formState: { errors, dirtyFields }, reset, control } = useForm<PerfilSucursalFormDataType>({
     resolver: zodResolver(inputsPerfilSucursalEditarSchema),
     defaultValues: {
       name: "",
@@ -77,17 +78,23 @@ export default function PerfilSucursalPage() {
 
   // Mostrar modal de confirmación
   const onSubmit = (data: PerfilSucursalFormDataType) => {
-    if (hasChanges) {
-      setChangedFields(data);
-      setShowModal(true);
-    }
+
+    const payload: Partial<PerfilSucursalFormDataType> = {};
+
+    (Object.keys(dirtyFields) as Array<keyof PerfilSucursalFormDataType>).forEach((key) => {
+      payload[key] = data[key];
+    })
+
+    if (Object.keys(payload).length === 0) return;
+
+    setChangedFields(payload);
+    setShowModal(true);
+
   };
 
   // Confirmar cambios
   const handleConfirmChange = async () => {
-    // TODO: Llamar al backend para actualizar perfil
-    // const respuesta = await editarPerfilSucursal(changedFields);
-    console.log('Cambios a guardar:', changedFields);
+    editarSucursal(changedFields);
     setIsEditing(false);
   };
 

@@ -46,3 +46,14 @@ export const inputsPerfilSucursalEditarSchema = z.object({
     .min(1, 'La dirección es obligatoria')
     .min(5, 'La dirección debe tener al menos 5 caracteres')
 });
+
+export const editarPerfilSucursalSchemaResponse = z.object({
+  data: z.object({
+    sucursal: sucursalPerfil
+  }),
+  msg: z.string()
+})
+
+export const editarPerfilSucursalErrorSchemaResponse = z.object({
+  msg: z.string()
+})

@@ -1,11 +1,11 @@
 import axios from "axios";
 import clienteAxios from "../config/axios";
 import { SUCURSAL_ENDPOINTS } from "../config/endpoints";
-import { obtenerPerfilSucursalSchemaResponse, verificarSucursalAutenticadaSchemaResponse } from "../schemas/sucursalSchemas/sucursalPerfilSchema";
+import { editarPerfilSucursalErrorSchemaResponse, editarPerfilSucursalSchemaResponse, obtenerPerfilSucursalSchemaResponse, verificarSucursalAutenticadaSchemaResponse } from "../schemas/sucursalSchemas/sucursalPerfilSchema";
 
 import { mensajeErrorSucursalSchemaResponse } from "../schemas/sucursalSchemas/sucursalGeneralSchema";
 import type { ErrorTypadoGeneralType, MensajeConexionErrorSucursalType } from "../types/sucursalTypes/sucursalGeneralTypes";
-import type { ObtenerPerfilSucursalResponseType, SucursalVerificadaResponseType } from "../types/sucursalTypes/sucursalPerfilTypes";
+import type { EditarSucursalIndividualResponseType, ObtenerPerfilSucursalResponseType, PerfilSucursalFormDataType, SucursalVerificadaResponseType } from "../types/sucursalTypes/sucursalPerfilTypes";
 import { sucursalDasboardSchema, sucursalDashboardErrorSchema } from "../schemas/sucursalSchemas/sucursalDashboardSchema";
 import type { DashboardSucursalResponseType } from "../types/sucursalTypes/sucursalDashboardTypes";
 
@@ -124,5 +124,41 @@ export async function obtenerPerfilSucursal() : Promise<ObtenerPerfilSucursalRes
         }
 
         return respuestaCatchConexion;
+    }
+}
+
+export async function editarPerfilSucursal(payload: Partial<PerfilSucursalFormDataType>) : Promise<EditarSucursalIndividualResponseType>{
+
+    try {
+        const {data} = await clienteAxios.patch(SUCURSAL_ENDPOINTS.EDITAR_PERFIL, payload);
+
+        const result = editarPerfilSucursalSchemaResponse.safeParse(data);
+
+        if(result.success){
+            return {
+                ok: true,
+                msg: result.data.msg,
+                data: result.data.data.sucursal
+            }
+        }
+
+        return respuestaErrorTypado;
+
+    } catch (error) {
+
+        if(axios.isAxiosError(error) && error.response){
+            const result = editarPerfilSucursalErrorSchemaResponse.safeParse(error.response.data);
+
+            if(result.success){
+                return {
+                    ok: false,
+                    msg: result.data.msg
+                }
+            }
+            return respuestaErrorTypado;
+        }
+
+        return respuestaCatchConexion;
+
     }
 }

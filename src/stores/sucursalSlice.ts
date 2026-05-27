@@ -1,13 +1,14 @@
 import type { StateCreator } from "zustand";
 import type { DashboardSucursalType } from "../types/sucursalTypes/sucursalDashboardTypes";
-import { obtenerDashboardSucursal, obtenerPerfilSucursal } from "../services/sucursalServices";
+import { editarPerfilSucursal, obtenerDashboardSucursal, obtenerPerfilSucursal } from "../services/sucursalServices";
 import { toast } from "react-toastify";
-import type { SucursalPerfilType } from "../types/sucursalTypes/sucursalPerfilTypes";
+import type { PerfilSucursalFormDataType, SucursalPerfilType } from "../types/sucursalTypes/sucursalPerfilTypes";
 
 export type SucursalSliceType = {
     sucursalDashboard: DashboardSucursalType['data'],
     getDashboardSucursal: () => void;
     getPerfilSucursal: () => void;
+    editarPerfilSucursal: (data: Partial<PerfilSucursalFormDataType>) => void
     perfilSucursal: SucursalPerfilType
 }
 
@@ -67,6 +68,20 @@ export const sucursalSlice: StateCreator<SucursalSliceType> = (set) => ({
             set({
                 perfilSucursal: perfilSucursalInicial
             })
+        }
+    },
+
+    editarPerfilSucursal: async (data) => {
+        const respuesta = await editarPerfilSucursal(data);
+        
+        if(respuesta.ok){
+            toast.success(respuesta.msg);
+
+            set({
+                perfilSucursal: respuesta.data
+            })
+        } else {
+            toast.error(respuesta.msg)
         }
     }
 })
