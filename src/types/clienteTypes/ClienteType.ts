@@ -44,5 +44,23 @@ export type ObtenerTodosLosClientesSuccessType = {
 
 export type ObtenerTodosLosClientesType = ObtenerTodosLosClientesErrorType | ObtenerTodosLosClientesSuccessType;
 
+////OBTENER CLIENTES SUCURSAL AUTENTICADA
+
+export type ObtenerClientesSucursalAutenticadaErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type ObtenerClientesSucursalAutenticadaSuccessType = {
+    ok: true,
+    data: {
+        clientes: ClientesType,
+        paginacion: PaginacionClientesType
+    }
+    msg: string
+};
+
+export type ObtenerClientesSucursalAutenticadaResponseType = ObtenerClientesSucursalAutenticadaSuccessType | ObtenerClientesSucursalAutenticadaErrorType;
+
 ///////CREAR CLIENTES////
 export type CrearClienteFormType = z.infer<typeof clienteFormSchema>

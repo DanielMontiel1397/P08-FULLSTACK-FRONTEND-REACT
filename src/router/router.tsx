@@ -17,6 +17,7 @@ import SucursalLayout from "../pages/sucursal/SucursalLayout";
 import AuthGeneral from "../pages/auth/AuthGeneral";
 import DashboardSucursalPage from "../pages/sucursal/DashboardSucursalPage";
 import PerfilSucursalPage from "../pages/sucursal/PerfilSucursalPage";
+import ClientesSucursal from "../pages/sucursal/clients/ClientesSucursal";
 
 
 export const router = createBrowserRouter([
@@ -102,6 +103,10 @@ export const router = createBrowserRouter([
             {
                 path: 'perfil',
                 element: <PerfilSucursalPage/>
+            },
+            {
+                path: 'clientes',
+                element: <ClientesSucursal/>
             }
         ]
     }

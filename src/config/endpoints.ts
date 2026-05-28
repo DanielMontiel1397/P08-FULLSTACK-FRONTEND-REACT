@@ -29,5 +29,6 @@ export const SUCURSAL_ENDPOINTS = {
     VERIFICAR: '/sucursal/verificar',
     INICIO: '/sucursal/inicio',
     PERFIL: '/sucursal/perfil',
-    EDITAR_PERFIL: '/sucursal/perfil'
+    EDITAR_PERFIL: '/sucursal/perfil',
+    OBTENER_CLIENTES_SUCURSAL: '/clientes'
 }

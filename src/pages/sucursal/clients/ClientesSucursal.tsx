@@ -1,37 +1,42 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import ClienteCard from '../../../components/ClienteCard';
+import { useAppStore } from '../../../stores/useAppStore';
+import Paginacion from '../../../components/Paginacion';
+import type { ClienteType, CrearClienteFormType } from '../../../types/clienteTypes/ClienteType';
 import ClienteFormModal from '../../../components/ClienteFormModal';
 import RenovarMembresiaModal from '../../../components/RenovarMembresiaModal';
 import ConfirmModal from '../../../components/ConfirmModal';
-import DashboardCard from '../../../components/DashboardCard';
-import { useAppStore } from '../../../stores/useAppStore';
-import Paginacion from '../../../components/Paginacion';
-import type { ClienteType } from '../../../types/clienteTypes/ClienteType';
 
-export default function ClientesSucursalPage() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+export default function ClientesSucursal() {
+
 
   /////OBTENER STORE 
 
-  const obtenerClientes = useAppStore(state => state.obtenerClientes);
+  const obtenerClientes = useAppStore(state => state.obtenerClientesSucursal);
   const clientes = useAppStore(state => state.clientes);
-  const clientesResumen = useAppStore(state => state.clientesResumen)
-  const clientesSucursal = useAppStore(state => state.clientesSucursal)
+  const sucursalPerfil = useAppStore(state => state.perfilSucursal)
   const paginacion = useAppStore(state => state.paginacionClientes)
 
   ///OBTENER QUERYS DE URL
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const idSucursal = parseInt(searchParams.get('idSucursal') || '1')
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '8')
 
 
   useEffect(() => {
-    obtenerClientes(idSucursal, page, limit);
-  }, [page, limit,obtenerClientes])
+    obtenerClientes(page, limit);
+  }, [page, limit, obtenerClientes])
+
+  //Paginacion
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({
+      page: newPage.toString(),
+      limit: limit.toString()
+    })
+  };
+
 
   // 🎛️ Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -40,16 +45,12 @@ export default function ClientesSucursalPage() {
   const [showRenewModal, setShowRenewModal] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteType | null>(null);
 
-  // 🔄 Calcular porcentajes
-  const porcentajeActivos = clientesResumen.totalClientes > 0 ? (clientesResumen.clientesActivos / clientesResumen.totalClientes) * 100 : 0;
-  const porcentajeInactivos = clientesResumen.totalClientes > 0 ? (clientesResumen.clientesInactivos / clientesResumen.totalClientes) * 100 : 0;
+  ///EDICION DE CLIENTE
 
-  //Paginacion
-  const handlePageChange = (newPage: number) => {
-    setSearchParams({
-      page: newPage.toString(),
-      limit: limit.toString()
-    })
+  // 💾 Handler: Crear cliente
+  const handleCreateSubmit = (data: CrearClienteFormType) => {
+    console.log('Crear cliente:', data);
+    // TODO: Llamar al backend
   };
 
   // ✏️ Handler: Editar cliente
@@ -82,114 +83,52 @@ export default function ClientesSucursalPage() {
   // ✅ Handler: Confirmar eliminación
   const handleConfirmDelete = () => {
     console.log('Eliminar cliente:', clienteSeleccionado?.id);
-    // TODO: Llamar al backend
+    // TODO: Llamar al backend DELETE /api/superadmin/clientes/:id
     setClienteSeleccionado(null);
   };
 
   // ✅ Handler: Confirmar renovación
   const handleConfirmRenew = (membershipType: 'semana' | 'mes' | 'anualidad') => {
     console.log('Renovar membresía:', clienteSeleccionado?.id, 'Tipo:', membershipType);
-    // TODO: Llamar al backend
+    // TODO: Llamar al backend PATCH /api/superadmin/clientes/:id/renovar
     setClienteSeleccionado(null);
-  };
-
-  // 💾 Handler: Crear cliente
-  const handleCreateSubmit = (data: any) => {
-    console.log('Crear cliente:', data);
-    // TODO: Llamar al backend
   };
 
   // 💾 Handler: Guardar edición
-  const handleEditSubmit = (data: any) => {
-    console.log('Editar cliente:', clienteSeleccionado?.id, data);
-    // TODO: Llamar al backend
+  const handleEditSubmit = (data: CrearClienteFormType) => {
+    console.log('Actualizar cliente:', clienteSeleccionado?.id, data);
+    // TODO: Llamar al backend PATCH /api/superadmin/clientes/:id
     setClienteSeleccionado(null);
   };
-
-  // ← Volver a detalle de sucursal
-  const handleVolver = () => {
-    navigate(`/admin/sucursales/${id}`);
-  };
-
-  // Si no existe la sucursal, redirigir
-  if (!idSucursal) {
-    navigate('/admin/sucursales');
-    return null;
-  }
 
   return (
     <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
 
       {/* 📌 Header */}
       <div className="mb-8">
-        <button
-          onClick={handleVolver}
-          className="
-            flex items-center gap-2
-            text-sm text-zinc-400
-            hover:text-zinc-300
-            transition-colors
-            mb-4
-            hover:cursor-pointer
-          "
-        >
-          ← Volver a Detalle de Sucursal
-        </button>
+
 
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-zinc-100">
-              Clientes de {clientesSucursal.name}
+              Clientes de {sucursalPerfil.name}
             </h1>
             <p className="text-zinc-400 mt-2">
               Gestiona los clientes de esta sucursal
             </p>
           </div>
 
-          {/* Botón Crear */}
           <button
             onClick={() => setShowCreateModal(true)}
-            className="
-              flex items-center gap-2
-              px-4 py-2.5
-              text-sm font-medium
-              text-white
-              bg-blue-600
-              hover:bg-blue-700
-              rounded-lg
-              transition-colors
-            "
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors hover:cursor-pointer"
           >
             <span className="text-lg">+</span>
             Nuevo Cliente
           </button>
+
         </div>
       </div>
 
-      {/* 📊 Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <DashboardCard
-          titulo="Total Clientes"
-          valor={clientesResumen.totalClientes}
-          porcentaje={100}
-          color="blue"
-          icon="👥"
-        />
-        <DashboardCard
-          titulo="Clientes Activos"
-          valor={clientesResumen.clientesActivos}
-          porcentaje={porcentajeActivos}
-          color="green"
-          icon="✅"
-        />
-        <DashboardCard
-          titulo="Clientes Inactivos"
-          valor={clientesResumen.clientesInactivos}
-          porcentaje={porcentajeInactivos}
-          color="red"
-          icon="❌"
-        />
-      </div>
 
       {/* 📊 Grid de Clientes */}
       {clientes.length > 0 ? (
@@ -205,29 +144,11 @@ export default function ClientesSucursalPage() {
           ))}
         </div>
       ) : (
-        <div className="
-          bg-zinc-900 
-          border border-zinc-800 
-          rounded-xl 
-          p-12 
-          text-center
-        ">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-12 text-center">
           <p className="text-zinc-400 text-lg">
             No hay clientes registrados en esta sucursal
           </p>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="
-              mt-4
-              px-4 py-2
-              text-sm font-medium
-              text-blue-400
-              hover:text-blue-300
-              transition-colors
-            "
-          >
-            Crear primer cliente
-          </button>
+
         </div>
       )}
 
@@ -239,7 +160,6 @@ export default function ClientesSucursalPage() {
         onPageChange={handlePageChange}
       />
 
-      {/* Modal: Crear Cliente */}
       <ClienteFormModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
@@ -285,6 +205,7 @@ export default function ClientesSucursalPage() {
         confirmText="Sí, eliminar"
         cancelText="Cancelar"
       />
+
     </div>
   );
 }

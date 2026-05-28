@@ -1,5 +1,6 @@
 import z from "zod";
 import { paginacionClientesSchema } from "../paginacionSchema";
+import { sucursalPerfil } from "../sucursalSchemas/sucursalPerfilSchema";
 
 /////VER CLIENTES DE SUCURSAL///
 
@@ -44,6 +45,18 @@ export const obtenerTodosClientesSchemaResponse = z.object({
     }),
     paginacion: paginacionClientesSchema
 })
+
+//////OBTENER CLIENTES SUCURSAL AUTENTICADA////
+
+export const obtenerClientesSucursalAutenticadaSchemaResponse = z.object({
+    data: z.object({
+        sucursal: sucursalPerfil,
+        clientes: clientesSchema
+    }),
+    paginacion: paginacionClientesSchema,
+    msg: z.string()
+})
+
 
 ///////CREAR CLIENTE/////
 export const clienteFormSchema = z.object({

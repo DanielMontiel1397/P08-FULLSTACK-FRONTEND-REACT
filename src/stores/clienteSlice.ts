@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { ClientesResumenType, ClientesSucursalType, ClientesType, CrearClienteFormType } from "../types/clienteTypes/ClienteType";
-import { crearClienteSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
+import { crearClienteSucursal, obtenerClientesPorSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
 import { toast } from "react-toastify";
 import type { PaginacionClientesType } from "../types/PaginacionType";
 
@@ -10,7 +10,8 @@ export type ClienteSliceType = {
     clientesSucursal: ClientesSucursalType,
     paginacionClientes: PaginacionClientesType
     obtenerClientes: (sucursalId: number, page: number, limit: number) => Promise<void>;
-    obtenerTodosLosClientes: (page: number, limit: number) => Promise<void>
+    obtenerTodosLosClientes: (page: number, limit: number) => Promise<void>;
+    obtenerClientesSucursal: (page: number, limit: number) => Promise<void>
     crearCliente: (dataCliente: CrearClienteFormType) => Promise<void>
 }
 
@@ -42,7 +43,7 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
     paginacionClientes: paginacionSucursalesInicial,
 
     obtenerClientes: async (sucursalid, page, limit) => {
-        const respuesta = await obtenerClientesSucursal(sucursalid, page, limit);
+        const respuesta = await obtenerClientesPorSucursal(sucursalid, page, limit);
         
         if(respuesta.ok){
             set({
@@ -75,6 +76,23 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
             toast.error(respuesta.msg)
             set({
                 clientes:[],
+                paginacionClientes: paginacionSucursalesInicial
+            })
+        }
+    },
+
+    obtenerClientesSucursal: async (page, limit) => {
+        const respuesta = await obtenerClientesSucursal(page,limit);
+        
+        if(respuesta.ok){
+            set({
+                clientes: respuesta.data.clientes,
+                paginacionClientes: respuesta.data.paginacion
+            })
+        } else {
+            toast.error(respuesta.msg);
+            set({
+                clientes: [],
                 paginacionClientes: paginacionSucursalesInicial
             })
         }

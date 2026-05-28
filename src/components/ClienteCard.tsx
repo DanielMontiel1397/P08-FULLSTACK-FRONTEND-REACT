@@ -39,16 +39,7 @@ export default function ClienteCard({
   };
 
   return (
-    <div className="
-      bg-zinc-900 
-      border border-zinc-800 
-      rounded-xl 
-      p-6 
-      shadow-lg
-      hover:border-zinc-700
-      transition-all
-      duration-200
-    ">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-lg hover:border-zinc-700 transition-all duration-200">
       
       {/* Header: Nombre del cliente */}
       <div className="flex items-center gap-3 mb-4">
@@ -90,15 +81,7 @@ export default function ClienteCard({
 
         {/* Badge de estado activo/inactivo */}
         <div>
-          <span className={`
-            px-3 py-1 
-            rounded-full 
-            text-xs font-medium
-            ${cliente.is_activated 
-              ? 'bg-green-900/30 text-green-400 border border-green-600/50' 
-              : 'bg-red-900/30 text-red-400 border border-red-600/50'
-            }
-          `}>
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${cliente.is_activated ? 'bg-green-900/30 text-green-400 border border-green-600/50' : 'bg-red-900/30 text-red-400 border border-red-600/50'}`}>
             {cliente.is_activated ? '✅ Activo' : '❌ Inactivo'}
           </span>
         </div>
@@ -111,17 +94,7 @@ export default function ClienteCard({
         {onEdit && (
           <button
             onClick={() => onEdit(cliente.id)}
-            className="
-              flex-1
-              px-3 py-2
-              text-sm font-medium
-              text-blue-400
-              bg-blue-900/20
-              border border-blue-600/50
-              rounded-lg
-              hover:bg-blue-900/30
-              transition-colors
-            "
+            className="hover:cursor-pointer flex-1 px-3 py-2 text-sm font-medium text-blue-400 bg-blue-900/20 border border-blue-600/50 rounded-lg hover:bg-blue-900/30 transition-colors"
           >
             Editar
           </button>
@@ -131,17 +104,7 @@ export default function ClienteCard({
         {onRenew && (
           <button
             onClick={() => onRenew(cliente.id)}
-            className="
-              flex-1
-              px-3 py-2
-              text-sm font-medium
-              text-green-400
-              bg-green-900/20
-              border border-green-600/50
-              rounded-lg
-              hover:bg-green-900/30
-              transition-colors
-            "
+            className="hover:cursor-pointer flex-1 px-3 py-2 text-sm font-medium text-green-400 bg-green-900/20 border border-green-600/50 rounded-lg hover:bg-green-900/30 transition-colors"
           >
             Renovar
           </button>
@@ -151,17 +114,7 @@ export default function ClienteCard({
         {onDelete && (
           <button
             onClick={() => onDelete(cliente.id)}
-            className="
-              flex-1
-              px-3 py-2
-              text-sm font-medium
-              text-red-400
-              bg-red-900/20
-              border border-red-600/50
-              rounded-lg
-              hover:bg-red-900/30
-              transition-colors
-            "
+            className="hover:cursor-pointer flex-1 px-3 py-2 text-sm font-medium text-red-400 bg-red-900/20 border border-red-600/50 rounded-lg hover:bg-red-900/30 transition-colors"
           >
             Eliminar
           </button>
