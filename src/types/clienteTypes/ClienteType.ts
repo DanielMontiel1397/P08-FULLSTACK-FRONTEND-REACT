@@ -63,4 +63,17 @@ export type ObtenerClientesSucursalAutenticadaSuccessType = {
 export type ObtenerClientesSucursalAutenticadaResponseType = ObtenerClientesSucursalAutenticadaSuccessType | ObtenerClientesSucursalAutenticadaErrorType;
 
 ///////CREAR CLIENTES////
-export type CrearClienteFormType = z.infer<typeof clienteFormSchema>
+export type ClienteFormType = z.infer<typeof clienteFormSchema>
+
+export type CrearClienteErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type CrearClienteSuccessType = {
+    ok: true,
+    msg: string,
+    data: ClienteType
+};
+
+export type CrearClienteResponseType = CrearClienteSuccessType | CrearClienteErrorType;

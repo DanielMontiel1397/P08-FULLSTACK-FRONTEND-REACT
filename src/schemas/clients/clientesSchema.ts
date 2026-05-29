@@ -82,3 +82,10 @@ export const clienteFormSchema = z.object({
             message: 'Selecciona un tipo de membresía'
         })
 });
+
+export const crearClienteSchemaResponse = z.object({
+    data: z.object({
+        cliente: clienteSchema
+    }),
+    msg: z.string()
+})

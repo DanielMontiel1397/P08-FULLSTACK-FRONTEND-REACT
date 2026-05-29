@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import ClienteCard from '../../../components/ClienteCard';
 import { useAppStore } from '../../../stores/useAppStore';
 import Paginacion from '../../../components/Paginacion';
-import type { ClienteType, CrearClienteFormType } from '../../../types/clienteTypes/ClienteType';
+import type { ClienteType, ClienteFormType } from '../../../types/clienteTypes/ClienteType';
 import ClienteFormModal from '../../../components/ClienteFormModal';
 import RenovarMembresiaModal from '../../../components/RenovarMembresiaModal';
 import ConfirmModal from '../../../components/ConfirmModal';
@@ -17,6 +17,8 @@ export default function ClientesSucursal() {
   const clientes = useAppStore(state => state.clientes);
   const sucursalPerfil = useAppStore(state => state.perfilSucursal)
   const paginacion = useAppStore(state => state.paginacionClientes)
+  const crearCliente = useAppStore(state => state.crearCliente);
+  const editarCliente = useAppStore(state => state.editarCliente);
 
   ///OBTENER QUERYS DE URL
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,9 +50,8 @@ export default function ClientesSucursal() {
   ///EDICION DE CLIENTE
 
   // 💾 Handler: Crear cliente
-  const handleCreateSubmit = (data: CrearClienteFormType) => {
-    console.log('Crear cliente:', data);
-    // TODO: Llamar al backend
+  const handleCreateSubmit = async (data: ClienteFormType) => {
+    await crearCliente(data);
   };
 
   // ✏️ Handler: Editar cliente
@@ -95,9 +96,8 @@ export default function ClientesSucursal() {
   };
 
   // 💾 Handler: Guardar edición
-  const handleEditSubmit = (data: CrearClienteFormType) => {
-    console.log('Actualizar cliente:', clienteSeleccionado?.id, data);
-    // TODO: Llamar al backend PATCH /api/superadmin/clientes/:id
+  const handleEditSubmit = async (data: ClienteFormType) => {
+    await editarCliente(data)
     setClienteSeleccionado(null);
   };
 

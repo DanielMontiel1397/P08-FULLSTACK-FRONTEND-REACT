@@ -1,8 +1,8 @@
 import axios from "axios";
 import clienteAxios from "../config/axios";
 import { ADMIN_ENDPOINTS, SUCURSAL_ENDPOINTS } from "../config/endpoints";
-import {  obtenerClientesSucursalAutenticadaSchemaResponse, obtenerClientesSucursalSchemaResponse, obtenerTodosClientesSchemaResponse } from "../schemas/clients/clientesSchema";
-import type { CrearClienteFormType, ObtenerClientesSucursalAutenticadaResponseType, ObtenerClientesSucursalType, ObtenerClienteSucursalErrorType, ObtenerTodosLosClientesType } from "../types/clienteTypes/ClienteType";
+import {  crearClienteSchemaResponse, obtenerClientesSucursalAutenticadaSchemaResponse, obtenerClientesSucursalSchemaResponse, obtenerTodosClientesSchemaResponse } from "../schemas/clients/clientesSchema";
+import type { ClienteFormType, CrearClienteResponseType, ObtenerClientesSucursalAutenticadaResponseType, ObtenerClientesSucursalType, ObtenerClienteSucursalErrorType, ObtenerTodosLosClientesType } from "../types/clienteTypes/ClienteType";
 import { schemaErrorResponse } from "../schemas/generalErrorsSchema";
 
 const respuestaCatchConexion: ObtenerClienteSucursalErrorType = {
@@ -104,10 +104,8 @@ export async function obtenerClientesSucursal(page: number, limit: number) : Pro
         
         const {data} = await clienteAxios.get(`${SUCURSAL_ENDPOINTS.OBTENER_CLIENTES_SUCURSAL}?page=${page}&limit=${limit}`);
 
-        console.log(data);
-
         const result = obtenerClientesSucursalAutenticadaSchemaResponse.safeParse(data);
-        console.log(result);
+    
         if(result.success){
             return {
                 ok: true,
@@ -140,6 +138,41 @@ export async function obtenerClientesSucursal(page: number, limit: number) : Pro
     }
 }
 
-export async function crearClienteSucursal(dataCliente : CrearClienteFormType) {
+export async function crearClienteSucursal(dataCliente : ClienteFormType) : Promise<CrearClienteResponseType> {
+    try {
+        
+        const {data} = await clienteAxios.post(SUCURSAL_ENDPOINTS.CREAR_CLIENTE, dataCliente);
+
+        const result = crearClienteSchemaResponse.safeParse(data);
+
+        if(result.success){
+            return {   
+                ok: true,
+                msg: result.data.msg,
+                data: result.data.data.cliente
+            }
+        }
+
+        return respuestaErrorTypado;
+
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            const result = schemaErrorResponse.safeParse(error.response.data);
+
+            if(result.success){
+                return {
+                    ok: false,
+                    msg: result.data.msg
+                }
+            }
+
+            return respuestaErrorTypado;
+        }
+
+        return respuestaCatchConexion;
+    }
+}
+
+export async function editarClienteSucursal(dataCliente : ClienteFormType) {
     console.log(dataCliente);
 }

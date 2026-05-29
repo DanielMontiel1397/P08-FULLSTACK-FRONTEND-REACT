@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
-import type { ClientesResumenType, ClientesSucursalType, ClientesType, CrearClienteFormType } from "../types/clienteTypes/ClienteType";
-import { crearClienteSucursal, obtenerClientesPorSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
+import type { ClientesResumenType, ClientesSucursalType, ClientesType, ClienteFormType } from "../types/clienteTypes/ClienteType";
+import { crearClienteSucursal, editarClienteSucursal, obtenerClientesPorSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
 import { toast } from "react-toastify";
 import type { PaginacionClientesType } from "../types/PaginacionType";
 
@@ -12,7 +12,8 @@ export type ClienteSliceType = {
     obtenerClientes: (sucursalId: number, page: number, limit: number) => Promise<void>;
     obtenerTodosLosClientes: (page: number, limit: number) => Promise<void>;
     obtenerClientesSucursal: (page: number, limit: number) => Promise<void>
-    crearCliente: (dataCliente: CrearClienteFormType) => Promise<void>
+    crearCliente: (dataCliente: ClienteFormType) => Promise<void>;
+    editarCliente: (dataCliente: ClienteFormType) => Promise<void>
 }
 
 const clientesResumenInicial = {
@@ -100,6 +101,18 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
 
     crearCliente: async (data) => {
         const respuesta = await crearClienteSucursal(data);
+        
+        if(respuesta.ok){
+            toast.success(respuesta.msg)
+        } else {
+            toast.error(respuesta.msg)
+        }
+    },
+
+    editarCliente: async (data) => {
+        const respuesta = await editarClienteSucursal(data);
+
         console.log(respuesta);
     }
+
 })
