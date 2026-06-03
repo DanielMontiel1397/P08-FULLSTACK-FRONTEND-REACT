@@ -27,7 +27,15 @@ export type AuthSliceType = {
 
 const estadoInicialAuthAdministrador: AdministradorResponseType = null;
 
-const estadoInicialAuthSucursal: SucursalPerfilType = null;
+const estadoInicialAuthSucursal: SucursalPerfilType = {
+    id: 0,
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    is_activated: false,
+    is_verified: false
+};
 
 export const authSlice: StateCreator<AuthSliceType> = (set) => ({
     authAdministrador: estadoInicialAuthAdministrador,
