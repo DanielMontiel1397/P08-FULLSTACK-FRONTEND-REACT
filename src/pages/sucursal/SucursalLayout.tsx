@@ -18,7 +18,7 @@ export default function AdminLayout() {
     const token = localStorage.getItem('AUTH_TOKEN_SUCURSAL_GYM');
    
     if (!token) {
-      navigate('/auth/loginAdmin', { replace: true });
+      navigate('/', { replace: true });
       return;
     }
 

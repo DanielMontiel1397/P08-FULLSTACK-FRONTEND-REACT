@@ -26,13 +26,20 @@ export const router = createBrowserRouter([
         element: <NotFoundView/>
     },
     {
-        path: '/auth',
-        element: <AuthLayout />,
+        path: '/',
+        element: <AuthLayout/>,
         children: [
             {
                 index: true,
                 element: <AuthGeneral/>
-            },
+            }
+        ]
+    },
+    {
+        path: '/auth',
+        element: <AuthLayout />,
+        children: [
+
             {
                 
                 path: 'loginAdmin',

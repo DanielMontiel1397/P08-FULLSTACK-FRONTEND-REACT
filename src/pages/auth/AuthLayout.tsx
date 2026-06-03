@@ -24,7 +24,7 @@ export default function AuthLayout() {
     if ((userType === 'admin' && tokenAdmin) || (userType === 'sucursal' && tokenSucursal)) {
       verificarAutenticado()
     } else {
-      navigate('/auth', {replace: true})
+      navigate('/', {replace: true})
     }
   }, [verificarAutenticado])
 

@@ -18,7 +18,7 @@ export default function AdminLayout() {
     const token = localStorage.getItem('AUTH_TOKEN_ADMIN_GYM');
 
     if (!token) {
-      navigate('/auth/loginAdmin', { replace: true });
+      navigate('/', { replace: true });
       return;
     }
 
@@ -32,7 +32,7 @@ export default function AdminLayout() {
   }
 
   if (!administradorAutenticado) {
-    return <Navigate to="/auth/loginAdmin" replace />;
+    return <Navigate to="/" replace />;
   }
 
 
