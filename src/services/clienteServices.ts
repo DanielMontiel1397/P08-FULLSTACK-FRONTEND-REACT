@@ -1,8 +1,8 @@
 import axios from "axios";
 import clienteAxios from "../config/axios";
 import { ADMIN_ENDPOINTS, SUCURSAL_ENDPOINTS } from "../config/endpoints";
-import {  crearClienteSchemaResponse, obtenerClientesSucursalAutenticadaSchemaResponse, obtenerClientesSucursalSchemaResponse, obtenerTodosClientesSchemaResponse } from "../schemas/clients/clientesSchema";
-import type { ClienteFormType, CrearClienteResponseType, ObtenerClientesSucursalAutenticadaResponseType, ObtenerClientesSucursalType, ObtenerClienteSucursalErrorType, ObtenerTodosLosClientesType } from "../types/clienteTypes/ClienteType";
+import {  crearClienteSchemaResponse, editarClienteSchemaResponse, obtenerClientesSucursalAutenticadaSchemaResponse, obtenerClientesSucursalSchemaResponse, obtenerTodosClientesSchemaResponse } from "../schemas/clients/clientesSchema";
+import type { ClienteFormType, CrearClienteResponseType, EditarClienteResponseType, ObtenerClientesSucursalAutenticadaResponseType, ObtenerClientesSucursalType, ObtenerClienteSucursalErrorType, ObtenerTodosLosClientesType } from "../types/clienteTypes/ClienteType";
 import { schemaErrorResponse } from "../schemas/generalErrorsSchema";
 
 const respuestaCatchConexion: ObtenerClienteSucursalErrorType = {
@@ -173,6 +173,39 @@ export async function crearClienteSucursal(dataCliente : ClienteFormType) : Prom
     }
 }
 
-export async function editarClienteSucursal(dataCliente : ClienteFormType) {
-    console.log(dataCliente);
+export async function editarClienteSucursal(idCliente: string, dataCliente : Partial<ClienteFormType>): Promise<EditarClienteResponseType> {
+   
+    const url = `${SUCURSAL_ENDPOINTS.EDITAR_CLIENTE}/${idCliente}`;
+  
+
+    try {
+        const {data} = await clienteAxios.patch(url, dataCliente);
+
+        const result = editarClienteSchemaResponse.safeParse(data);
+
+        if(result.success){
+            return {
+                ok: true,
+                msg: result.data.msg,
+                data: result.data.data.cliente
+            }
+        }
+
+        return respuestaErrorTypado;
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            const result = schemaErrorResponse.safeParse(error.response.data);
+
+            if(result.success){
+                return {
+                    ok: false,
+                    msg: result.data.msg
+                }
+            }
+
+            return respuestaErrorTypado;
+        }
+
+        return respuestaCatchConexion;
+    }
 }

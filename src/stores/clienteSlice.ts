@@ -13,7 +13,7 @@ export type ClienteSliceType = {
     obtenerTodosLosClientes: (page: number, limit: number) => Promise<void>;
     obtenerClientesSucursal: (page: number, limit: number) => Promise<void>
     crearCliente: (dataCliente: ClienteFormType) => Promise<void>;
-    editarCliente: (dataCliente: ClienteFormType) => Promise<void>
+    editarCliente: (idCliente: string, dataCliente: Partial<ClienteFormType>) => Promise<void>
 }
 
 const clientesResumenInicial = {
@@ -109,10 +109,14 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
         }
     },
 
-    editarCliente: async (data) => {
-        const respuesta = await editarClienteSucursal(data);
-
-        console.log(respuesta);
+    editarCliente: async (idCliente, data) => {
+        const respuesta = await editarClienteSucursal(idCliente, data);
+      
+        if(respuesta.ok){
+            toast.success(respuesta.msg);
+        } else {
+            toast.error(respuesta.msg);
+        }
     }
 
 })

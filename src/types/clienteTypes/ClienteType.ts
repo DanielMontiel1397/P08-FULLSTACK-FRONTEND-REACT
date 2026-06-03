@@ -4,6 +4,7 @@ import type { PaginacionClientesType } from "../PaginacionType";
 
 export type ClienteType = z.infer<typeof clienteSchema>
 export type ClientesType = z.infer<typeof clientesSchema>
+
 export type ClientesResumenType = z.infer<typeof clientesResumenSchema>
 export type ClientesSucursalType = z.infer<typeof sucursalClienteSchema>
 
@@ -77,3 +78,19 @@ export type CrearClienteSuccessType = {
 };
 
 export type CrearClienteResponseType = CrearClienteSuccessType | CrearClienteErrorType;
+
+///EDITAR CLIENTES
+export type ClienteTypeEditar = ClienteType & {id: string};
+
+export type EditarClienteErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type EditarClienteSuccessType = {
+    ok: true,
+    msg: string,
+    data: ClienteType
+};
+
+export type EditarClienteResponseType = EditarClienteSuccessType | EditarClienteErrorType;

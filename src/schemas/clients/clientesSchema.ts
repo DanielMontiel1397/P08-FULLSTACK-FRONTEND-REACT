@@ -89,3 +89,13 @@ export const crearClienteSchemaResponse = z.object({
     }),
     msg: z.string()
 })
+
+
+///EDITAR CLIENTE
+
+export const editarClienteSchemaResponse = z.object({
+    data: z.object({
+        cliente: clienteSchema
+    }),
+    msg: z.string()
+})

@@ -26,10 +26,11 @@ export default function ClientesSucursal() {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '8')
 
-
   useEffect(() => {
     obtenerClientes(page, limit);
   }, [page, limit, obtenerClientes])
+
+  ///////EDICION SUCURSAL//////////
 
   //Paginacion
   const handlePageChange = (newPage: number) => {
@@ -96,8 +97,11 @@ export default function ClientesSucursal() {
   };
 
   // 💾 Handler: Guardar edición
-  const handleEditSubmit = async (data: ClienteFormType) => {
-    await editarCliente(data)
+  const handleEditSubmit = async (data: Partial<ClienteFormType>) => {
+
+    if(!clienteSeleccionado) return;
+
+    await editarCliente(clienteSeleccionado.id.toString(), data)
     setClienteSeleccionado(null);
   };
 
@@ -177,6 +181,7 @@ export default function ClientesSucursal() {
         onSubmit={handleEditSubmit}
         cliente={clienteSeleccionado || undefined}
         mode="edit"
+       
       />
 
       {/* Modal: Renovar Membresía */}
