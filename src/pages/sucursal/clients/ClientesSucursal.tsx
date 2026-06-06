@@ -19,6 +19,8 @@ export default function ClientesSucursal() {
   const paginacion = useAppStore(state => state.paginacionClientes)
   const crearCliente = useAppStore(state => state.crearCliente);
   const editarCliente = useAppStore(state => state.editarCliente);
+  const editarMembresiaCliente = useAppStore(state => state.editarMembresiaCliente);
+  const eliminarCliente = useAppStore(state => state.eliminarCliente);
 
   ///OBTENER QUERYS DE URL
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,13 +42,23 @@ export default function ClientesSucursal() {
     })
   };
 
+  const clienteInicial: ClienteType = {
+    id: 0,
+    name: '',
+    age: 0,
+    phone: '',
+    membership_type: "semana",
+    membership_end: '',
+    membership_start: '',
+    is_activated: false
+  }
 
   // 🎛️ Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRenewModal, setShowRenewModal] = useState(false);
-  const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteType | null>(null);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteType>(clienteInicial);
 
   ///EDICION DE CLIENTE
 
@@ -83,36 +95,37 @@ export default function ClientesSucursal() {
   };
 
   // ✅ Handler: Confirmar eliminación
-  const handleConfirmDelete = () => {
-    console.log('Eliminar cliente:', clienteSeleccionado?.id);
-    // TODO: Llamar al backend DELETE /api/superadmin/clientes/:id
-    setClienteSeleccionado(null);
+  const handleConfirmDelete = async () => {
+
+    await eliminarCliente(clienteSeleccionado.id.toString());
+
+    setClienteSeleccionado(clienteInicial);
   };
 
   // ✅ Handler: Confirmar renovación
-  const handleConfirmRenew = (membershipType: 'semana' | 'mes' | 'anualidad') => {
-    console.log('Renovar membresía:', clienteSeleccionado?.id, 'Tipo:', membershipType);
-    // TODO: Llamar al backend PATCH /api/superadmin/clientes/:id/renovar
-    setClienteSeleccionado(null);
+  const handleConfirmRenew = async (membershipType: ClienteFormType['membership_type']) => {
+
+    await editarMembresiaCliente(clienteSeleccionado.id.toString(), membershipType);
+    setClienteSeleccionado(clienteInicial);
   };
 
   // 💾 Handler: Guardar edición
   const handleEditSubmit = async (data: Partial<ClienteFormType>) => {
 
-    if(!clienteSeleccionado) return;
+    if (!clienteSeleccionado) return;
 
     await editarCliente(clienteSeleccionado.id.toString(), data)
-    setClienteSeleccionado(null);
+    setClienteSeleccionado(clienteInicial);
   };
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-6 lg:p-8">
 
       {/* 📌 Header */}
       <div className="mb-8">
 
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-zinc-100">
               Clientes de {sucursalPerfil.name}
@@ -124,7 +137,7 @@ export default function ClientesSucursal() {
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors hover:cursor-pointer"
+            className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors hover:cursor-pointer"
           >
             <span className="text-lg">+</span>
             Nuevo Cliente
@@ -176,12 +189,12 @@ export default function ClientesSucursal() {
         isOpen={showEditModal}
         onClose={() => {
           setShowEditModal(false);
-          setClienteSeleccionado(null);
+          setClienteSeleccionado(clienteInicial);
         }}
         onSubmit={handleEditSubmit}
         cliente={clienteSeleccionado || undefined}
         mode="edit"
-       
+
       />
 
       {/* Modal: Renovar Membresía */}
@@ -189,7 +202,7 @@ export default function ClientesSucursal() {
         isOpen={showRenewModal}
         onClose={() => {
           setShowRenewModal(false);
-          setClienteSeleccionado(null);
+          setClienteSeleccionado(clienteInicial);
         }}
         onConfirm={handleConfirmRenew}
         clienteName={clienteSeleccionado?.name || ''}
@@ -201,7 +214,7 @@ export default function ClientesSucursal() {
         isOpen={showDeleteModal}
         onClose={() => {
           setShowDeleteModal(false);
-          setClienteSeleccionado(null);
+          setClienteSeleccionado(clienteInicial);
         }}
         onConfirm={handleConfirmDelete}
         titulo="¿Eliminar cliente?"

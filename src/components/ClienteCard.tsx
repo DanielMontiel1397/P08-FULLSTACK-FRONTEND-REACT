@@ -9,9 +9,9 @@ interface ClienteCardProps {
   showSucursalBadge?: boolean;
 }
 
-export default function ClienteCard({ 
-  cliente, 
-  onEdit, 
+export default function ClienteCard({
+  cliente,
+  onEdit,
   onDelete,
   onRenew
 }: ClienteCardProps) {
@@ -32,7 +32,7 @@ export default function ClienteCard({
     anualidad: string
   }
 
-  const membershipLabels : MemberShipLabelsType= {
+  const membershipLabels: MemberShipLabelsType = {
     semana: 'Semanal',
     mes: 'Mensual',
     anualidad: 'Anual'
@@ -40,11 +40,11 @@ export default function ClienteCard({
 
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-lg hover:border-zinc-700 transition-all duration-200">
-      
+
       {/* Header: Nombre del cliente */}
       <div className="flex items-center gap-3 mb-4">
         <span className="text-2xl">👤</span>
-        <h3 className="text-xl font-semibold text-zinc-100">
+        <h3 className="text-xl font-semibold text-zinc-100 break-words">
           {cliente.name}
         </h3>
       </div>
@@ -72,7 +72,9 @@ export default function ClienteCard({
         {/* Fechas de membresía */}
         <div className="flex items-center gap-2 text-sm text-zinc-400">
           <span>📅</span>
-          <span className="text-xs">{formatDate(cliente.membership_start)} - {formatDate(cliente.membership_end)}</span>
+          <span className="text-xs break-words">
+            {formatDate(cliente.membership_start)} - {formatDate(cliente.membership_end)}
+          </span>
         </div>
       </div>
 
@@ -88,8 +90,8 @@ export default function ClienteCard({
       </div>
 
       {/* Botones de acción */}
-      <div className="flex gap-2">
-        
+      <div className="flex flex-col sm:flex-row gap-2">
+
         {/* Botón Editar */}
         {onEdit && (
           <button
@@ -113,8 +115,14 @@ export default function ClienteCard({
         {/* Botón Eliminar */}
         {onDelete && (
           <button
+            disabled={!cliente.is_activated}
             onClick={() => onDelete(cliente.id)}
-            className="hover:cursor-pointer flex-1 px-3 py-2 text-sm font-medium text-red-400 bg-red-900/20 border border-red-600/50 rounded-lg hover:bg-red-900/30 transition-colors"
+            className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors
+              ${cliente.is_activated
+                ? 'text-red-400 bg-red-900/20 border border-red-600/50 hover:bg-red-900/30 hover:cursor-pointer'
+                : 'text-gray-500 bg-gray-800 border border-gray-700 cursor-not-allowed opacity-50'
+              }
+  `}
           >
             Eliminar
           </button>

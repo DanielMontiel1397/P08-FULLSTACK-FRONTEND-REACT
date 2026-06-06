@@ -32,5 +32,7 @@ export const SUCURSAL_ENDPOINTS = {
     EDITAR_PERFIL: '/sucursal/perfil',
     OBTENER_CLIENTES_SUCURSAL: '/clientes',
     CREAR_CLIENTE: '/clientes/crear-cliente',
-    EDITAR_CLIENTE: '/clientes'
+    EDITAR_CLIENTE: '/clientes',
+    EDITAR_MEMBRESIA: '/clientes',
+    ELIMINAR_CLIENTE: '/clientes'
 }

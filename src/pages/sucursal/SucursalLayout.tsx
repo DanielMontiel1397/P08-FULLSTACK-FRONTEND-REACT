@@ -16,18 +16,18 @@ export default function AdminLayout() {
 
   useEffect(() => {
     const token = localStorage.getItem('AUTH_TOKEN_SUCURSAL_GYM');
-   
+
     if (!token) {
       navigate('/', { replace: true });
       return;
     }
 
     verificarSucursal()
-  }, [])
+  }, [verificarSucursal, navigate])
 
   if (loading) {
     return (
-      <Cargando message="Cargando..."/>
+      <Cargando message="Cargando..." />
     )
   }
 
@@ -40,14 +40,14 @@ export default function AdminLayout() {
       <SucursalSidebar open={open} setOpen={setOpen} />
 
       <main
-        className={`
-          flex-1 min-h-screen
-          transition-all duration-300
-          ${open ? 'ml-64' : 'ml-20'}
-        `}
-      >
+  className={`
+    flex-1 min-h-screen
+    transition-all duration-300
+    ${open ? 'ml-64' : 'ml-20'}
+  `}
+>
         <Outlet />
-        
+
       </main>
 
     </div>

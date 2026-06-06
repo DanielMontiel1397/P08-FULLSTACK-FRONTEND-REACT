@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { ClientesResumenType, ClientesSucursalType, ClientesType, ClienteFormType } from "../types/clienteTypes/ClienteType";
-import { crearClienteSucursal, editarClienteSucursal, obtenerClientesPorSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
+import { crearClienteSucursal, editarClienteSucursal, editarMembresiaCliente, eliminarCliente, obtenerClientesPorSucursal, obtenerClientesSucursal, obtenerTodosLosClientes } from "../services/clienteServices";
 import { toast } from "react-toastify";
 import type { PaginacionClientesType } from "../types/PaginacionType";
 
@@ -14,6 +14,8 @@ export type ClienteSliceType = {
     obtenerClientesSucursal: (page: number, limit: number) => Promise<void>
     crearCliente: (dataCliente: ClienteFormType) => Promise<void>;
     editarCliente: (idCliente: string, dataCliente: Partial<ClienteFormType>) => Promise<void>
+    editarMembresiaCliente: (idCliente: string, membresiaData: ClienteFormType['membership_type']) => Promise<void>
+    eliminarCliente: (idCliente: string) => Promise<void>
 }
 
 const clientesResumenInicial = {
@@ -116,6 +118,26 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
             toast.success(respuesta.msg);
         } else {
             toast.error(respuesta.msg);
+        }
+    },
+
+    editarMembresiaCliente: async (idCliente, membrsiaData) => {
+        const respuesta = await editarMembresiaCliente(idCliente, membrsiaData);
+        
+        if(respuesta.ok){
+            toast.success(respuesta.msg)
+        } else {
+            toast.error(respuesta.msg)
+        }
+    },
+
+    eliminarCliente: async (idCliente)=> {
+        const respuesta = await eliminarCliente(idCliente);
+        
+        if(respuesta.msg){
+            toast.success(respuesta.msg);
+        } else {
+            toast.error(respuesta.msg)
         }
     }
 

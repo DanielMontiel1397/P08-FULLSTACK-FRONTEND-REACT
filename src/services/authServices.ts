@@ -53,6 +53,7 @@ export async function autenticarSuperAdmin(credenciales: LoginType): Promise<Log
             }
 
             const resultValidationResult = formErrorValidacionSchemaResponse.safeParse(data);
+
             if(resultValidationResult.success){
                 return {
                     success: false,
@@ -96,6 +97,7 @@ export async function autenticarSucursal(credenciales: LoginType) : Promise<Logi
         }
 
     } catch (error) {
+        
         if(axios.isAxiosError(error) && error.response){
             const {data} = error.response;
 

@@ -23,7 +23,7 @@ export default function AdminLayout() {
     }
 
     verificarAdministrador()
-  }, [])
+  }, [verificarAdministrador,navigate])
 
   if (loading) {
     return (

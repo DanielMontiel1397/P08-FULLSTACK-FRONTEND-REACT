@@ -1,4 +1,4 @@
-export default function AuthGeneral() {
+export default function Inicio() {
   return (
     <div className="w-full max-w-2xl mx-auto px-4 md:px-8 text-center">
       

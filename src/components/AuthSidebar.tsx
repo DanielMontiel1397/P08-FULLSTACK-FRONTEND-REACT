@@ -34,7 +34,7 @@ export default function AuthSidebar() {
     >
 
       <div className="h-20 flex items-center justify-between px-4 border-b border-zinc-800">
-        <Link to="/auth" className="flex items-center gap-2 overflow-hidden">
+        <Link to="/" className="flex items-center gap-2 overflow-hidden">
           <img className={`w-10 ${!open && 'hidden'}`} src=".././Logo.png" alt="Logo" />
         </Link>
 

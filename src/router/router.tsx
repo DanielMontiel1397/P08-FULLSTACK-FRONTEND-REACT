@@ -14,10 +14,11 @@ import ConfirmarLayout from "../pages/confirm/ConfirmLayout";
 import NotFoundView from "../pages/404";
 import CrearPasswordSucursal from "../pages/auth/CrearPasswordSucursal";
 import SucursalLayout from "../pages/sucursal/SucursalLayout";
-import AuthGeneral from "../pages/auth/AuthGeneral";
 import DashboardSucursalPage from "../pages/sucursal/DashboardSucursalPage";
 import PerfilSucursalPage from "../pages/sucursal/PerfilSucursalPage";
 import ClientesSucursal from "../pages/sucursal/clients/ClientesSucursal";
+import AuthHomeLayout from "../pages/AuthHomeLayout";
+import Inicio from "../pages/Inicio";
 
 
 export const router = createBrowserRouter([
@@ -27,11 +28,11 @@ export const router = createBrowserRouter([
     },
     {
         path: '/',
-        element: <AuthLayout/>,
+        element: <AuthHomeLayout/>,
         children: [
             {
                 index: true,
-                element: <AuthGeneral/>
+                element: <Inicio/>
             }
         ]
     },

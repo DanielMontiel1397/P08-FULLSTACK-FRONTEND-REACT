@@ -94,3 +94,34 @@ export type EditarClienteSuccessType = {
 };
 
 export type EditarClienteResponseType = EditarClienteSuccessType | EditarClienteErrorType;
+
+
+///EDITAR MEMBRESIA CLIENTE
+
+export type EditarMembresiaClienteErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type EditarMembresiaClienteSuccessType = {
+    ok: true,
+    msg: string,
+    data: ClienteType
+};
+
+export type EditarMembresiaClienteResponseType = EditarMembresiaClienteSuccessType | EditarMembresiaClienteErrorType;
+
+
+//ELIMINAR CLIENTE
+
+export type EliminarClienteErrorType = {
+    ok: false,
+    msg: string
+}
+
+export type EliminarClienteSuccessType = {
+    ok: true,
+    msg: string
+};
+
+export type EliminarClienteResponseType = EliminarClienteSuccessType | EliminarClienteErrorType;

@@ -99,3 +99,17 @@ export const editarClienteSchemaResponse = z.object({
     }),
     msg: z.string()
 })
+
+/////EDITAR MEMBRESIA CLIENTE
+
+export const editarMembresiaClienteSchemaResponse = z.object({
+    data: z.object({
+        cliente: clienteSchema
+    }),
+    msg: z.string()
+})
+
+///ELIMINAR CLIENTE
+export const eliminarClienteSchemaResponse = z.object({
+    msg: z.string()
+})
