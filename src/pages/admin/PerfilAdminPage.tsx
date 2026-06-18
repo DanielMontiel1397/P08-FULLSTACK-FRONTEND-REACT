@@ -6,6 +6,7 @@ import { formatearFecha } from '../../data/AdminPerfil';
 import ConfirmModal from '../../components/ConfirmModal';
 import MensajeErrorInput from '../../components/MensajeErrorInput';
 import { useAppStore } from '../../stores/useAppStore';
+import Cargando from '../../components/Cargando';
 
 // 📋 Schema de validación para el email
 const emailSchema = z.object({
@@ -20,6 +21,7 @@ type EmailFormData = z.infer<typeof emailSchema>;
 export default function PerfilAdminPage() {
 
   //Obtener funciones del STORE
+  const cargando = useAppStore(state => state.loadingAdmin)
   const obtenerPerfil = useAppStore(state => state.getPerfil);
   const perfilAdministrador = useAppStore(state => state.perfilAdmin)
   const editarPefilAdministrador = useAppStore(state => state.editarPerfil);
@@ -35,7 +37,7 @@ export default function PerfilAdminPage() {
 
   //Mandar a llamar para obtener el usuario Administrador
 
-  const obtenerPerfilAdministrador = async ()=> {
+  const obtenerPerfilAdministrador = async () => {
     await obtenerPerfil()
   }
 
@@ -43,19 +45,24 @@ export default function PerfilAdminPage() {
     obtenerPerfilAdministrador()
   }, [])
 
-  useEffect( ()=> {
-     if(perfilAdministrador?.email){
+  useEffect(() => {
+    if (perfilAdministrador?.email) {
       reset({
         email: perfilAdministrador.email
       })
-     }
+    }
   }, [perfilAdministrador, reset])
+
+
 
   // 🎛️ Estados
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newEmail, setNewEmail] = useState('');
 
+  if (cargando) {
+    return <Cargando message='Cargando perfil...' />
+  }
 
   //Revisamos si estan editando el email para mostrar la advertencia.
   const watchEmail = watch('email');
@@ -86,14 +93,14 @@ export default function PerfilAdminPage() {
   // Ejecutamos el cambio de Email
   const handleConfirmChange = async () => {
     const respuesta = await editarPefilAdministrador(newEmail);
-    if(respuesta){
+    if (respuesta) {
       cerrarSesionAdministrador();
     }
     setIsEditing(false);
   };
 
-    return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+  return (
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
 
       {/* 📌 Header */}
       <div className="mb-8">

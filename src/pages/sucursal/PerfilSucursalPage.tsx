@@ -99,7 +99,7 @@ export default function PerfilSucursalPage() {
   };
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
 
       {/* 📌 Header */}
       <div className="mb-8">

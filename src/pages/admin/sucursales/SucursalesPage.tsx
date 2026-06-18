@@ -6,11 +6,13 @@ import SucursalFormModal from '../../../components/SucursalFormModal';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppStore } from '../../../stores/useAppStore';
 import type { SucursalFormularioEditarType, SucursalFormularioType } from '../../../types/adminTypes/SucursalAdminType';
+import Cargando from '../../../components/Cargando';
 
 export default function SucursalesPage() {
   const navigate = useNavigate();
 
   /////OBTENER FUNCIONES STORE
+  const cargando = useAppStore(state => state.loadingAdmin);
   const obtenerSucursales = useAppStore(state => state.obtenerSucursalesAdministrador);
   const sucursales = useAppStore(state => state.sucursales);
   const paginacion = useAppStore(state => state.paginacionSucursales);
@@ -28,10 +30,16 @@ export default function SucursalesPage() {
     obtenerSucursales(page, limit);
   }, [page, limit, obtenerSucursales])
 
+  
+
   // 🎛️ Estados para modales
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState<SucursalFormularioEditarType | null>(null);
+
+  if(cargando){
+    return <Cargando message='Cargando sucursales...' />
+  }
 
   //PENDIENTE ACTIVAR - DESACTIVAR SUCURSAL
   //const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -95,10 +103,10 @@ export default function SucursalesPage() {
 */
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
 
       {/* 📌 Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-start gap-2 md:items-center justify-between mb-8 flex-col md:flex-row">
         <div>
           <h1 className="text-3xl font-bold text-zinc-100">
             Sucursales
@@ -111,17 +119,7 @@ export default function SucursalesPage() {
         {/* Botón Crear */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="
-            flex items-center gap-2
-            px-4 py-2.5
-            text-sm font-medium
-            text-white
-            bg-blue-600
-            hover:bg-blue-700
-            rounded-lg
-            transition-colors
-            hover:cursor-pointer
-          "
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors hover:cursor-pointer"
         >
           <span className="text-lg">+</span>
           Nueva Sucursal

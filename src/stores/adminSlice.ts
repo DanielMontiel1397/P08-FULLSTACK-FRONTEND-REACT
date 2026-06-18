@@ -8,6 +8,7 @@ import type { PaginacionSucursalType } from "../types/PaginacionType";
 
 
 export type AdminSliceType = {
+    loadingAdmin: boolean;
     dashboard: DashboardType,
     perfilAdmin: perfilAdminType
     getDashboard: () => void;
@@ -49,6 +50,7 @@ const paginacionSucursalesInicial : PaginacionSucursalType = {
 }
 
 export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
+    loadingAdmin: false,
 
     perfilAdmin: perfilAdminInicial,
 
@@ -59,6 +61,9 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
     paginacionSucursales: paginacionSucursalesInicial,
 
     getDashboard: async () => {
+
+        set({loadingAdmin: true})
+
         const respuesta = await obtenerDashboardAdmin();
         
         if(respuesta.ok){
@@ -69,9 +74,13 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
             toast.error(respuesta.msg)
         }
 
+        set({loadingAdmin: false})
     },
 
     getPerfil: async () => {
+        console.log('getPerfil -> loadingAdmin false');
+        set({loadingAdmin: true})
+
         const respuesta = await obtenerPerfilAdmin();
         
         if(respuesta.ok){
@@ -84,21 +93,33 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
                 perfilAdmin: perfilAdminInicial
             })
         }
+        
+        set({
+            loadingAdmin: false
+        })
+
     },
 
     editarPerfil: async (email) => {
+
         const respuesta = await editarPerfilAdmin(email);
         
         if(respuesta.ok){
             toast.success(respuesta.msg)
+            
             return true
         } else {
             toast.error(respuesta.msg)
+        
             return false
         }
+      
     },
 
     obtenerSucursalesAdministrador: async (page, limit) => {
+   
+        set({loadingAdmin: true})
+
         const respuesta = await obtenerSucursales(page, limit);
         
         if(respuesta.ok){
@@ -110,13 +131,19 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
             set({
                 sucursales: [],
                 paginacionSucursales: paginacionSucursalesInicial
+             
             });
 
             toast.error(respuesta.msg)
         }
+
+        set({loadingAdmin: false})
     },
 
     crearSucursal: async (data) => {
+
+
+
         const respuesta = await crearSucursalAdmin(data);
         
         if(respuesta.ok){
@@ -127,6 +154,9 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
     },
     
     editarSucursal: async (data) => {
+        set({
+            loadingAdmin: true
+        })
         const respuesta = await editarSucursalAdmin(data);
         
         if(respuesta.ok){
@@ -134,5 +164,8 @@ export const adminSlice: StateCreator<AdminSliceType> = (set) => ({
         } else {
             toast.error(respuesta.msg)
         }
+        set({
+            loadingAdmin: false
+        })
     }
 })

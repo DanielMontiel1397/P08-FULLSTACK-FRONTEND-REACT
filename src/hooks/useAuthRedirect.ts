@@ -22,9 +22,9 @@ export function useAuthRedirect(redirectToHome: boolean = false) {
 
     useEffect(() => {
         if(administradorAutenticado && usuarioActivo === 'admin'){
-            navigate(redirectToHome ? '/' : '/admin', {replace: true})
+            navigate(redirectToHome ? '/admin' : '/admin', {replace: true})
         } else if(sucursalAutenticada && usuarioActivo === 'sucursal'){
-            navigate(redirectToHome ? '/' : '/sucursal', {replace: true});
-        }
+            navigate(redirectToHome ? '/sucursal' : '/sucursal', {replace: true});
+        } 
     }, [administradorAutenticado, sucursalAutenticada, usuarioActivo, navigate])
 }

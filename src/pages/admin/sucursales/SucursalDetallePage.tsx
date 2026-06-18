@@ -32,6 +32,7 @@ const sucursalSchema = z.object({
 type SucursalFormData = z.infer<typeof sucursalSchema>;
 
 export default function DetalleSucursalPage() {
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -39,6 +40,8 @@ export default function DetalleSucursalPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState<SucursalFormData | null>(null);
+
+
 
   // 📊 Obtener sucursal por ID
   const sucursal = getSucursalById(Number(id));
@@ -109,8 +112,8 @@ export default function DetalleSucursalPage() {
   if (!sucursal) return null;
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
-      
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
+
       {/* 📌 Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -152,7 +155,7 @@ export default function DetalleSucursalPage() {
       </div>
 
       <div className="max-w-2xl space-y-4">
-        
+
         {/* 📄 Card de Información */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold text-zinc-100 mb-6">
@@ -160,7 +163,7 @@ export default function DetalleSucursalPage() {
           </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
+
             {/* Campo: Nombre */}
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-2">
@@ -358,8 +361,8 @@ export default function DetalleSucursalPage() {
                   px-3 py-1 
                   rounded-full 
                   text-xs font-medium
-                  ${sucursal.is_verified 
-                    ? 'bg-green-900/30 text-green-400 border border-green-600/50' 
+                  ${sucursal.is_verified
+                    ? 'bg-green-900/30 text-green-400 border border-green-600/50'
                     : 'bg-yellow-900/30 text-yellow-400 border border-yellow-600/50'
                   }
                 `}>
@@ -370,8 +373,8 @@ export default function DetalleSucursalPage() {
                   px-3 py-1 
                   rounded-full 
                   text-xs font-medium
-                  ${sucursal.is_activated 
-                    ? 'bg-blue-900/30 text-blue-400 border border-blue-600/50' 
+                  ${sucursal.is_activated
+                    ? 'bg-blue-900/30 text-blue-400 border border-blue-600/50'
                     : 'bg-red-900/30 text-red-400 border border-red-600/50'
                   }
                 `}>

@@ -36,16 +36,10 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100">
       <SucursalSidebar open={open} setOpen={setOpen} />
 
-      <main
-  className={`
-    flex-1 min-h-screen
-    transition-all duration-300
-    ${open ? 'ml-64' : 'ml-20'}
-  `}
->
+      <main className={`flex-1 min-h-screen md:pt-0 ${open ? 'md:ml-0' : 'md:ml-0'}`}>
         <Outlet />
 
       </main>

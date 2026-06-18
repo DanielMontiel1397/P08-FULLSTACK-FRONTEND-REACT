@@ -5,10 +5,12 @@ import ClienteCard from '../../../components/ClienteCard';
 import Paginacion from '../../../components/Paginacion';
 import { useAppStore } from '../../../stores/useAppStore';
 import { useSearchParams } from 'react-router-dom';
+import Cargando from '../../../components/Cargando';
 
 export default function TodosClientesPage() {
-  
+
   ////OBTENER DATOS USESTORE/////
+  const cargando = useAppStore(state => state.loadingAdmin)
   const obtenerTodosLosClientes = useAppStore(state => state.obtenerTodosLosClientes);
   const clientesTotal = useAppStore(state => state.clientes);
   const paginacion = useAppStore(state => state.paginacionClientes)
@@ -27,13 +29,18 @@ export default function TodosClientesPage() {
   };
 
   useEffect(() => {
-      obtenerTodosLosClientes(page, limit);
-    }, [page, limit, obtenerTodosLosClientes]);
+    obtenerTodosLosClientes(page, limit);
+  }, [page, limit, obtenerTodosLosClientes]);
+
+  if(cargando){
+    return <Cargando message='Cargando clientes...' />
+  }
+
 
   return (
-    <div className="w-full min-h-screen bg-zinc-950 p-8 overflow-auto">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+
         {/* Header */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-3">

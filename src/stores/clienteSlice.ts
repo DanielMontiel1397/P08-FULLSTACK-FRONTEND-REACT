@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import type { PaginacionClientesType } from "../types/PaginacionType";
 
 export type ClienteSliceType = {
+    loading: boolean;
     clientes: ClientesType;
     clientesResumen: ClientesResumenType,
     clientesSucursal: ClientesSucursalType,
@@ -37,6 +38,8 @@ const paginacionSucursalesInicial : PaginacionClientesType = {
 }
 
 export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
+    loading: false,
+
     clientes: [],
 
     clientesResumen: clientesResumenInicial,
@@ -68,35 +71,43 @@ export const clienteSlice : StateCreator<ClienteSliceType> = (set) => ({
     },
     
     obtenerTodosLosClientes: async (page, limit) => {
+
+        set({loading: true});
+
         const respuesta = await obtenerTodosLosClientes(page, limit);
         
         if(respuesta.ok){
             set({
                 clientes: respuesta.data.clientes,
-                paginacionClientes: respuesta.data.paginacion
+                paginacionClientes: respuesta.data.paginacion,
+                loading: false
             })
         } else {
             toast.error(respuesta.msg)
             set({
                 clientes:[],
-                paginacionClientes: paginacionSucursalesInicial
+                paginacionClientes: paginacionSucursalesInicial,
+                loading: false
             })
         }
     },
 
     obtenerClientesSucursal: async (page, limit) => {
+
         const respuesta = await obtenerClientesSucursal(page,limit);
         
         if(respuesta.ok){
             set({
                 clientes: respuesta.data.clientes,
-                paginacionClientes: respuesta.data.paginacion
+                paginacionClientes: respuesta.data.paginacion,
+                
             })
         } else {
             toast.error(respuesta.msg);
             set({
                 clientes: [],
-                paginacionClientes: paginacionSucursalesInicial
+                paginacionClientes: paginacionSucursalesInicial,
+            
             })
         }
     },

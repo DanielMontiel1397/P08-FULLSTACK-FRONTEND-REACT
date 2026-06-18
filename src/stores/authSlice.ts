@@ -47,7 +47,7 @@ export const authSlice: StateCreator<AuthSliceType> = (set) => ({
     error: null,
 
     verificarToken: async () => {
-
+        console.log('verificarToken -> loading false');
         set({
             loading: true
         })
@@ -93,6 +93,7 @@ export const authSlice: StateCreator<AuthSliceType> = (set) => ({
                 localStorage.removeItem('AUTH_TOKEN_SUCURSAL_GYM')
             }
         }
+
     },
 
     loginSuperAdmin: async (data) => {

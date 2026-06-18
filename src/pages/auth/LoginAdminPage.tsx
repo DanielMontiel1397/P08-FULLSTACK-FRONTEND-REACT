@@ -7,7 +7,6 @@ import { useAppStore } from '../../stores/useAppStore'
 
 export default function LoginAdminPage() {
 
-  //Importar Store
   const autenticarAdministrador = useAppStore(state => state.loginSuperAdmin);
   const loading = useAppStore(state => state.loading);
 
@@ -23,36 +22,31 @@ export default function LoginAdminPage() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center ">
-      <div className="w-full max-w-md bg-zinc-900 rounded-2xl shadow-xl p-8 border border-zinc-800">
+    <div className="w-full flex items-center justify-center px-4">
+      <div className="w-full max-w-sm md:max-w-md bg-zinc-900 rounded-2xl shadow-xl p-6 md:p-8 border border-zinc-800">
 
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-zinc-100">
+        <div className="mb-6 md:mb-8 text-center">
+          <h1 className="text-xl md:text-2xl font-bold text-zinc-100">
             Acceso Administrador
           </h1>
-          <p className="text-sm text-zinc-400 mt-2">
+          <p className="text-xs md:text-sm text-zinc-400 mt-2">
             Ingrese sus credenciales para continuar
           </p>
         </div>
 
         <form
-          className="space-y-5"
+          className="space-y-4 md:space-y-5"
           onSubmit={handleSubmit(onSubmit)}
         >
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-zinc-300">
+            <label className="text-xs md:text-sm text-zinc-300">
               Correo electrónico
             </label>
             <input
               type="email"
               placeholder="admin@gym.com"
-              className="
-                bg-zinc-800 border border-zinc-700
-                text-zinc-100 rounded-lg px-4 py-2
-                placeholder-zinc-500
-                focus:outline-none focus:ring-2 focus:ring-blue-600
-              "
+              className="bg-zinc-800 border border-zinc-700 text-zinc-100 rounded-lg px-4 py-2 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
               {...register('email')}
             />
 
@@ -60,38 +54,23 @@ export default function LoginAdminPage() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-zinc-300">
+            <label className="text-xs md:text-sm text-zinc-300">
               Contraseña
             </label>
             <input
               type="password"
               placeholder="••••••••"
-              className="
-                bg-zinc-800 border border-zinc-700
-                text-zinc-100 rounded-lg px-4 py-2
-                placeholder-zinc-500
-                focus:outline-none focus:ring-2 focus:ring-blue-600
-              "
+              className="bg-zinc-800 border border-zinc-700 text-zinc-100 rounded-lg px-4 py-2 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
               {...register('password')}
             />
 
             {errors.password?.message && <MensajeErrorInput>{errors.password.message}</MensajeErrorInput>}
-
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="
-              hover:cursor-pointer
-              w-full mt-6
-              bg-blue-600 hover:bg-blue-700
-              disabled:bg-blue-400 disabled:cursor-not-allowed
-              text-white font-medium
-              py-2.5 rounded-lg
-              transition-colors
-              flex items-center justify-center gap-2
-            "
+            className="hover:cursor-pointer w-full mt-4 md:mt-6 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-medium py-2 md:py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
           >
             {loading && (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -100,12 +79,13 @@ export default function LoginAdminPage() {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 md:mt-6 text-center">
           <span className="text-xs text-zinc-500">
             Panel administrativo del gimnasio
           </span>
         </div>
-        <div className="mt-6 p-4 bg-zinc-800 border border-zinc-700 rounded-lg">
+
+        <div className="mt-4 md:mt-6 p-3 md:p-4 bg-zinc-800 border border-zinc-700 rounded-lg">
           <p className="text-xs text-zinc-400 text-center mb-2">
             Credenciales de prueba
           </p>

@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import DashboardCard from "../../components/DashboardCard"
 import SucursalCard from "../../components/SucursalCard"
 import { useAppStore } from "../../stores/useAppStore";
+import Cargando from "../../components/Cargando";
 
 export default function DashboardAdminPage() {
   
+  const cargando = useAppStore(state => state.loadingAdmin);
   const dataDashboard = useAppStore(state => state.getDashboard)
   const administradorAutenticado = useAppStore(state => state.authAdministrador);
   const {data} = useAppStore(state => state.dashboard);
@@ -12,13 +14,17 @@ export default function DashboardAdminPage() {
   useEffect(() => {
     if(!administradorAutenticado) return; 
     dataDashboard()
-  }, [])
+  }, [administradorAutenticado])
+
+  if(cargando){
+    return <Cargando message="Cargando pagina de inicio..."/>
+  }
 
   const porcentajeActivos = data.resumen.totalClientes > 0 ? (data.resumen.clientesActivos / data.resumen.totalClientes) * 100 : 0
   const porcentajeInactivos = data.resumen.totalClientes > 0 ? (data.resumen.clientesInactivos / data.resumen.totalClientes) * 100 : 0
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
 
       {/* 📌 Header */}
       <div className="mb-8">

@@ -4,6 +4,7 @@ import ClienteCard from '../../../components/ClienteCard';
 import DashboardCard from '../../../components/DashboardCard';
 import { useAppStore } from '../../../stores/useAppStore';
 import Paginacion from '../../../components/Paginacion';
+import Cargando from '../../../components/Cargando';
 
 
 export default function ClientesSucursalPage() {
@@ -11,7 +12,7 @@ export default function ClientesSucursalPage() {
   const navigate = useNavigate();
 
   /////OBTENER STORE 
-
+  const cargando = useAppStore(state => state.loadingAdmin);
   const obtenerClientes = useAppStore(state => state.obtenerClientes);
   const clientes = useAppStore(state => state.clientes);
   const clientesResumen = useAppStore(state => state.clientesResumen)
@@ -30,6 +31,9 @@ export default function ClientesSucursalPage() {
     obtenerClientes(idSucursal, page, limit);
   }, [page, limit, obtenerClientes, idSucursal])
 
+  if(cargando){
+    return <Cargando message='Obteniendo clientes...' />
+  }
 
   // 🔄 Calcular porcentajes
   const porcentajeActivos = clientesResumen.totalClientes > 0 ? (clientesResumen.clientesActivos / clientesResumen.totalClientes) * 100 : 0;
@@ -55,7 +59,7 @@ export default function ClientesSucursalPage() {
   }
 
   return (
-    <div className="w-full h-full overflow-auto bg-zinc-950 p-8">
+    <div className="w-full h-full overflow-auto bg-zinc-950 p-4 md:p-8 pt-20 md:pt-10">
 
       {/* 📌 Header */}
       <div className="mb-8">
